@@ -51,7 +51,7 @@ input:focus {
     background-color: rgb(206, 206, 206);
 }
 
-input:disabled {
+input.disabled {
     background-color: #EEEEEE;
 }
 

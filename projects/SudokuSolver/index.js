@@ -1,27 +1,34 @@
 function solve() {
+    //Get button "SOLVE"
     let solveBtn = document.querySelector(".solveBtn");
-    solveBtn.addEventListener("click", result);
+    solveBtn.addEventListener("click", markAddedNumbers)
+    solveBtn.addEventListener("click", solveBoard);
 
+
+    //Get button "RESET"
     let resetBtn = document.querySelector(".resetBtn");
     resetBtn.addEventListener("click", resetSudoku);
 
+    //Get all inputs
     let inputs = document.getElementsByTagName("input");
 
+    //Add event listeners (blur / keypress) on all inputs
     for (let i = 0; i < inputs.length; i++) {
         inputs[i].maxLength = 1;
-        inputs[i].addEventListener("keypress",isNumber)
+        inputs[i].addEventListener("keypress", isNumber)
         inputs[i].addEventListener("blur", validateCell);
     };
 
-    function isNumber(evt)
-    {
-       var charCode = (evt.which) ? evt.which : event.keyCode;
-       if (charCode > 48 && charCode < 58){
-           this.value = evt.key;
-       }
+    //check if pressed key is number, if so set input value to that number 
+    function isNumber(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+        if (charCode > 48 && charCode < 58) {
+            this.value = evt.key;
+        }
     }
 
-    function result() {
+    //This function solve the whole sudoku board
+    function solveBoard() {
         class Cell {
             constructor(columnNumber, rowNumber, number, game) {
                 this.solved = number > 0 ? true : false;
@@ -199,26 +206,47 @@ function solve() {
 
 
         let boardIsValid = validSudokuBoard(getPuzzle()[1]);
-        if(boardIsValid){
+        if (boardIsValid) {
             let puzzle = getPuzzle()[0];
             var result = new SudokuSolver(puzzle);
             result.initializeBoard();
             result.runSolve();
             writeSolvedSudoku(result.puzzle);
-        }else{
+        } else {
             alert("Invalid board!")
         }
     }
-    function validSudokuBoard(currentBoard){
+
+    //mark all numbers that are given by user as input
+    function markAddedNumbers() {
+        let currentBoard = getPuzzle()[1];
+        console.log(currentBoard);
+
+        for (let i = 0; i < currentBoard.length; i++) {
+            for (let j = 0; j < currentBoard[i].length; j++) {
+                let cell = currentBoard[i][j]
+                let currentElement = document.getElementById(`cell-${cell.cellNumber}`);
+                if (cell.number !== 0) {
+                    currentElement.classList.add("disabled")
+                }
+            }
+        }
+
+    }
+
+    //Check if current board contains invalid numbers
+    function validSudokuBoard(currentBoard) {
         for (let i = 0; i <= 80; i++) {
             let cell = document.getElementById(`cell-${i}`)
-            if(cell.style.background == "rgb(255, 0, 0)"){
+            if (cell.style.background == "rgb(255, 0, 0)") {
                 return false;
             }
         }
         return true;
 
     }
+
+    //check if current cell has valid number, if not, set it background to red 
     function validateCell() {
 
         if (this.value != "") {
@@ -232,31 +260,31 @@ function solve() {
                     if (cell.cellNumber == cellToFind) {
                         let currentElement = document.getElementById(`cell-${cell.cellNumber}`);
                         if (!isValid(cell.row, cell.col, informationBoard, cell)) {
-                           currentElement.style.background = "#ff0000";
-                           for (let i = 0; i < informationBoard.length; i++) {
-                            for (let j = 0; j < informationBoard[i].length; j++) {
-                                let cell = informationBoard[i][j];
-                                if (!isValid(cell.row, cell.col, informationBoard, cell)) {
-                                    let currentElement = document.getElementById(`cell-${cell.cellNumber}`);
-                                    currentElement.style.background = "#ff0000";
-                                 }
+                            currentElement.style.background = "#ff0000";
+                            for (let i = 0; i < informationBoard.length; i++) {
+                                for (let j = 0; j < informationBoard[i].length; j++) {
+                                    let cell = informationBoard[i][j];
+                                    if (!isValid(cell.row, cell.col, informationBoard, cell)) {
+                                        let currentElement = document.getElementById(`cell-${cell.cellNumber}`);
+                                        currentElement.style.background = "#ff0000";
+                                    }
+                                }
                             }
-                        }
-                        }else{
-                        currentElement.style.background = "";
-                        
-                        for (let i = 0; i < informationBoard.length; i++) {
-                            for (let j = 0; j < informationBoard[i].length; j++) {
-                                let cell = informationBoard[i][j];
-                                if (isValid(cell.row, cell.col, informationBoard, cell)) {
-                                    let currentElement = document.getElementById(`cell-${cell.cellNumber}`);
-                                    currentElement.style.background = "";
-                                 }
+                        } else {
+                            currentElement.style.background = "";
+
+                            for (let i = 0; i < informationBoard.length; i++) {
+                                for (let j = 0; j < informationBoard[i].length; j++) {
+                                    let cell = informationBoard[i][j];
+                                    if (isValid(cell.row, cell.col, informationBoard, cell)) {
+                                        let currentElement = document.getElementById(`cell-${cell.cellNumber}`);
+                                        currentElement.style.background = "";
+                                    }
+                                }
                             }
+                            return;
                         }
-                        return;
-                        }
-                        
+
                     }
                 }
             }
@@ -268,7 +296,7 @@ function solve() {
 
 
                 for (const element of possibilities) {
-                    if(cell.number == element.number && (cell.row != element.row || cell.col != element.col)){
+                    if (cell.number == element.number && (cell.row != element.row || cell.col != element.col)) {
                         return false;
                     }
                 }
@@ -311,31 +339,41 @@ function solve() {
                     box.push(board[i].slice(startY, startY + 3))
                 }
 
-                box = box.reduce((a, b) => a.concat(b));      
+                box = box.reduce((a, b) => a.concat(b));
                 return box;
             }
         }
     }
 
+    //clear sudoku board
+    //change button to "SOLVE"
+    //enable all inputs 
     function resetSudoku() {
         for (let i = 0; i <= 80; i++) {
             let cell = document.getElementById(`cell-${i}`)
+            cell.disabled = false;
+            cell.classList.remove("disabled");
             cell.value = "";
         }
         changeBtn();
     }
 
+    //change buttons to "SOLVE" and "RESET"
     function changeBtn() {
         solveBtn.style.display = solveBtn.style.display == "none" ? "initial" : "none";
         resetBtn.style.display = resetBtn.style.display == "initial" ? "none" : "initial";
     }
 
+    //write down the solved sudoku
+    //change the button to "RESET"
+    //disable all inputs 
     function writeSolvedSudoku(solvedSudoku) {
         let counter = 0;
 
         for (let row = 0; row < solvedSudoku.length; row++) {
             for (let col = 0; col < solvedSudoku[row].length; col++) {
                 let cell = document.getElementById(`cell-${counter++}`)
+                cell.disabled = true;
                 cell.value = solvedSudoku[row][col];
             }
         }
@@ -343,6 +381,9 @@ function solve() {
         changeBtn();
     }
 
+
+    //get current puzzle and return: 
+    //first matrix of current board values 
     function getPuzzle() {
         let puzzleToSolve = [];
         let puzzleToCheck = [];
@@ -373,7 +414,7 @@ function solve() {
 
         }
 
-        return [puzzleToSolve,puzzleToCheck];
+        return [puzzleToSolve, puzzleToCheck];
     }
 
 }
