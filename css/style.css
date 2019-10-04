@@ -107,6 +107,15 @@ figure.snip1104.blue h2 {
     background: #57acb5;
 }
 
+figure.snip1104.c667D5C {
+    background: #667D5C;
+}
+
+figure.snip1104.c667D5C h2 {
+    background: #475242;
+}
+
+
 
 figure.snip1104:hover img, figure.snip1104.hover img {
     opacity: 1;

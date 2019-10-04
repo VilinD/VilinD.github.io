@@ -1,0 +1,135 @@
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    text-align: center;
+    font-size: 150%;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    background: linear-gradient(#929486, #5b7751);
+}
+
+table {
+    border: 2px solid #000000;
+}
+
+td {
+    border: 1px solid #000000;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 50px;
+}
+
+input {
+    color: #000000;
+    padding: 0;
+    border: 0;
+    text-align: center;
+    width: 115px;
+    height: 115px;
+    font-size: 24px;
+    font-weight: bold;
+    background-color: #FFFFFF;
+    outline: none;
+}
+
+input {
+    color: transparent;
+    cursor: default;
+}
+
+input:focus {
+    outline: none;
+    color: transparent;
+    text-shadow: 0 0 0 #000000;
+    outline: none;
+    background-color: rgb(206, 206, 206);
+}
+
+input:disabled {
+    background-color: #EEEEEE;
+}
+
+#cell-0, #cell-1, #cell-2 {
+    border-top: 2px solid #000000;
+}
+
+#cell-5,#cell-2,#cell-8 {
+    border-right: 2px solid #000000;
+}
+
+#cell-0, #cell-3, #cell-6 {
+    border-left: 2px solid #000000;
+}
+
+#cell-6, #cell-7, #cell-8 {
+    border-bottom: 2px solid #000000;
+}
+
+#grid {
+    text-align: center;
+}
+
+#outer {
+    width: 100%;
+    text-align: center;
+    padding: 40px;
+}
+
+button {
+    background: #d9ddd8;
+    color: #fff;
+    border: none;
+    position: relative;
+    height: 60px;
+    width: 150px;
+    font-size: 1.6em;
+    padding: 0 2em;
+    cursor: pointer;
+    transition: 100ms ease all;
+    outline: none;
+}
+
+button:hover {
+    background: #fff;
+    color: #1AAB8A;
+}
+
+button:before, button:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 2px;
+    width: 0;
+    background: #1AAB8A;
+    transition: 100ms ease all;
+}
+
+button:after {
+    right: inherit;
+    top: inherit;
+    left: 0;
+    bottom: 0;
+}
+
+button:hover:before, button:hover:after {
+    width: 100%;
+    transition: 0ms ease all;
+}
+
+.resetBtn{
+    display: none;
+}
+
+.solveBtn {
+    display: inline;
+}
+#solution{
+    background-color: #EEEEEE;
+}
