@@ -36,7 +36,7 @@ function solve() {
             ], [
                 inputs[2].value,
                 inputs[4].value,
-                inputs[5].value,
+                inputs[6].value,
             ], [
                 inputs[1].value,
                 inputs[3].value,
